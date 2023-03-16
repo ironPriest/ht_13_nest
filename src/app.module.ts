@@ -7,8 +7,7 @@ import { BlogsRepository } from './blogs/blogs.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Blog, BlogSchema } from './blogs/blogs-schema';
 
-const mongoUri =
-  process.env.mongoForMongooseURI || 'mongodb://0.0.0.0:27017/blog_nest';
+const mongoUri = process.env.mongoURI || 'mongodb://0.0.0.0:27017/blog_nest';
 
 @Module({
   imports: [
