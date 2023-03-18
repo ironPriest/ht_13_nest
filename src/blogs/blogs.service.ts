@@ -13,7 +13,14 @@ export class BlogsService {
   ) {}
 
   async create(DTO: BlogInputDTO): Promise<BlogDocument> {
-    const blog = new this.blogModel(DTO);
+    const blog = new this.blogModel({
+      id: 42,
+      name: DTO.name,
+      description: DTO.description,
+      websiteUrl: DTO.websiteUrl,
+      createdAt: new Date().toISOString(),
+      isMembership: false,
+    });
     await this.blogsRepository.save(blog);
     return blog;
   }
