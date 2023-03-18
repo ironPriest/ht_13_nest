@@ -7,7 +7,7 @@ import { Model } from 'mongoose';
 export class BlogsRepository {
   constructor(@InjectModel(Blog.name) private blogModel: Model<BlogDocument>) {}
 
-  getBlog() {}
+  //getBlog() {}
 
   async getBlogs(): Promise<any> {
     return this.blogModel.find();
@@ -18,6 +18,6 @@ export class BlogsRepository {
   }
 
   async deleteAll() {
-    await this.blogModel.deleteMany();
+    await this.blogModel.deleteMany({});
   }
 }

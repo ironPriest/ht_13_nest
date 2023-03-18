@@ -6,7 +6,7 @@ export class TestingController {
   constructor(protected testingService: TestingService) {}
 
   @Delete()
-  async deleteAll() {
-    await this.testingService.deleteAll();
+  deleteAll() {
+    this.testingService.deleteAll();
   }
 }
