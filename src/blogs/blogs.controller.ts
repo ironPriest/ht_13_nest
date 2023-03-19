@@ -33,7 +33,7 @@ export class BlogsController {
   }
 
   @Get(':id')
-  getBlog(@Param('id') blogId: string) {
-    return { blog: 'blog' };
+  getBlog(@Param('id') blogId: Types.ObjectId) {
+    return this.blogsQueryRepository.getBlog(blogId);
   }
 }
