@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { BlogsRepository } from './blogs.repository';
+import { BlogsRepository } from './repositories/blogs.repository';
 import { InjectModel } from '@nestjs/mongoose';
 import { Blog, BlogDocument } from './blogs-schema';
-import { Model } from 'mongoose';
-import { BlogInputDTO } from './blogs.controller';
+import { Model, Types } from 'mongoose';
+import { BlogInputDTO } from './types';
 
 @Injectable()
 export class BlogsService {
@@ -12,17 +12,15 @@ export class BlogsService {
     protected blogsRepository: BlogsRepository,
   ) {}
 
-  async create(DTO: BlogInputDTO): Promise<BlogDocument> {
+  async create(DTO: BlogInputDTO): Promise<Types.ObjectId> {
     const blog = new this.blogModel({
-      id: 42,
       name: DTO.name,
       description: DTO.description,
       websiteUrl: DTO.websiteUrl,
       createdAt: new Date().toISOString(),
-      isMembership: false,
     });
     await this.blogsRepository.save(blog);
-    return blog;
+    return blog._id;
   }
 
   async getBlogs() {

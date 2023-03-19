@@ -1,23 +1,21 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  Param,
-  Post,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { BlogsService } from './blogs.service';
+import { BlogInputDTO } from './types';
+import { BlogsQueryRepository } from './repositories/blogs-query.repository';
+import { Types } from 'mongoose';
 
 @Controller('blogs')
 export class BlogsController {
-  constructor(protected blogsService: BlogsService) {}
+  constructor(
+    protected blogsService: BlogsService,
+    protected blogsQueryRepository: BlogsQueryRepository,
+  ) {}
 
   @Post()
-  //todo statusCode
-  //@HttpCode(200)
-  createBlog(@Body() inputDTO: BlogInputDTO) {
-    return this.blogsService.create(inputDTO);
+  //@HttpCode(201)
+  async createBlog(@Body() inputDTO: BlogInputDTO) {
+    const blogId: Types.ObjectId = await this.blogsService.create(inputDTO);
+    return this.blogsQueryRepository.getBlog(blogId);
   }
 
   @Get()
@@ -39,9 +37,3 @@ export class BlogsController {
     return { blog: 'blog' };
   }
 }
-
-export type BlogInputDTO = {
-  name: string;
-  description: string;
-  websiteUrl: string;
-};

@@ -6,9 +6,6 @@ export type BlogDocument = HydratedDocument<Blog>;
 @Schema()
 export class Blog {
   @Prop({ required: true })
-  id: string;
-
-  @Prop({ required: true })
   name: string;
 
   @Prop({ required: true })
@@ -20,7 +17,7 @@ export class Blog {
   @Prop({ required: true })
   createdAt: string;
 
-  @Prop({ required: true })
+  @Prop({ default: false })
   isMembership: boolean;
 }
 
