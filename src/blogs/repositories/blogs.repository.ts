@@ -5,10 +5,10 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class BlogsRepository {
-  constructor(@InjectModel(Blog.name) private blogModel: Model<BlogDocument>) {}
+  constructor(@InjectModel(Blog.name) private BlogModel: Model<BlogDocument>) {}
 
   async getBlogs(): Promise<any> {
-    return this.blogModel.find();
+    return this.BlogModel.find();
   }
 
   async save(blog: BlogDocument) {
@@ -16,6 +16,6 @@ export class BlogsRepository {
   }
 
   async deleteAll() {
-    await this.blogModel.deleteMany({});
+    await this.BlogModel.deleteMany({});
   }
 }

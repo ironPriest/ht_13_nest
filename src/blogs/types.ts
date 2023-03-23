@@ -10,7 +10,7 @@ export class BlogInputDTO {
 
 export class BlogViewDTO {
   constructor(
-    public id: Types.ObjectId,
+    public id: string,
     public name: string,
     public websiteUrl: string,
     public description: string,

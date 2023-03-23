@@ -1,26 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { BlogsRepository } from './repositories/blogs.repository';
 import { InjectModel } from '@nestjs/mongoose';
-import { Blog, BlogDocument } from './blogs-schema';
-import { Model, Types } from 'mongoose';
+import { Blog, BlogModelType } from './blogs-schema';
+import { Types } from 'mongoose';
 import { BlogInputDTO } from './types';
 
 @Injectable()
 export class BlogsService {
   constructor(
-    @InjectModel(Blog.name) private blogModel: Model<BlogDocument>,
+    @InjectModel(Blog.name)
+    private BlogModel: BlogModelType,
     protected blogsRepository: BlogsRepository,
   ) {}
 
-  async create(DTO: BlogInputDTO): Promise<Types.ObjectId> {
-    const blog = new this.blogModel({
-      name: DTO.name,
-      description: DTO.description,
-      websiteUrl: DTO.websiteUrl,
-      createdAt: new Date().toISOString(),
-    });
+  async create(DTO: BlogInputDTO): Promise<string> {
+    const blog = this.BlogModel.createBlog(DTO, this.BlogModel);
     await this.blogsRepository.save(blog);
-    return blog._id;
+    return blog._id.toString();
   }
 
   async getBlogs() {
