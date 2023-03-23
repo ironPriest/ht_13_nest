@@ -11,7 +11,6 @@ import {
 import { BlogsService } from './blogs.service';
 import { BlogInputDTO } from './types';
 import { BlogsQueryRepository } from './repositories/blogs-query.repository';
-import { Types } from 'mongoose';
 import { PostsService } from '../posts/posts.service';
 import { PostInputDTO } from '../posts/types';
 import { PostsQueryRepository } from '../posts/repositories/posts-query.repository';
@@ -26,7 +25,6 @@ export class BlogsController {
   ) {}
 
   @Post()
-  //@HttpCode(201)
   async createBlog(@Body() inputDTO: BlogInputDTO) {
     const blogId: string = await this.blogsService.create(inputDTO);
     const blog = await this.blogsQueryRepository.getBlog(blogId);
@@ -34,10 +32,10 @@ export class BlogsController {
     return blog;
   }
 
-  @Post('/:blogId/post')
+  @Post(':blogId/posts')
   async createBlogPost(
-    @Body() inputDTO: PostInputDTO,
     @Param('blogId') blogId: string,
+    @Body() inputDTO: PostInputDTO,
   ) {
     const blog = await this.blogsQueryRepository.getBlog(blogId);
     if (!blog) throw new NotFoundException();
