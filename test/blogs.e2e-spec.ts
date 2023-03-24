@@ -10,7 +10,7 @@ const properBlogInputDTO: BlogInputDTO = {
   description: 'testDescription',
   websiteUrl: 'testWebsiteUrl',
 };
-const properPostInputDto: PostInputDTO = {
+const properPostInputDTO: PostInputDTO = {
   title: 'testTitle',
   shortDescription: 'testShortDescription',
   content: 'testContent',
@@ -81,14 +81,21 @@ describe('blogs', () => {
     it('should create a post for a specific blog and return this post', async () => {
       const { newBlog } = expect.getState();
       const createdPost = await request(server)
-        .post('/blogs/:blogId/posts')
-        .query({ blogId: newBlog.id })
-        .send(properPostInputDto);
+        .post('/blogs/' + newBlog.id + '/posts')
+        .send(properPostInputDTO);
 
       expect(createdPost.status).toBe(201);
 
       const newPost = createdPost.body;
-      expect(newPost).toEqual({});
+      expect(newPost).toEqual({
+        id: expect.any(String),
+        title: properPostInputDTO.title,
+        shortDescription: properPostInputDTO.shortDescription,
+        content: properPostInputDTO.content,
+        blogId: newBlog.id,
+        blogName: newBlog.name,
+        createdAt: expect.any(String),
+      });
     });
   });
 });

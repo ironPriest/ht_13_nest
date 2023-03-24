@@ -4,11 +4,11 @@ import { like, PostInputDTO } from './types';
 
 @Schema()
 export class LikeStatus {
-  @Prop()
+  @Prop({ required: true })
   userId: string;
 
-  @Prop({ required: true })
-  like: like;
+  @Prop({ default: 'None' })
+  like: string;
 
   @Prop({ required: true })
   addedAt: string;
