@@ -95,6 +95,7 @@ describe('blogs', () => {
         blogId: newBlog.id,
         blogName: newBlog.name,
         createdAt: expect.any(String),
+        extendedLikesInfo: expect.any(Object),
       });
     });
   });
