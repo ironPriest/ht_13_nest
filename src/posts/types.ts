@@ -24,7 +24,7 @@ export class PostViewDTO {
     public extendedLikesInfo: {
       likesCount: number;
       dislikesCount: number;
-      myStatus: like;
+      myStatus: string;
       newestLikes: [];
     },
   ) {}

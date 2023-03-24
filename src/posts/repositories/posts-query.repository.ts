@@ -23,7 +23,7 @@ export class PostsQueryRepository {
       extendedLikesInfo: {
         likesCount: 0,
         dislikesCount: 0,
-        myStatus: like.None,
+        myStatus: 'None',
         newestLikes: [],
       },
     };
