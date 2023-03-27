@@ -56,7 +56,6 @@ describe('blogs', () => {
       const createdBlog = await request(server)
         .post('/blogs')
         .send(properBlogInputDTO);
-
       expect(createdBlog.status).toBe(201);
 
       const newBlog = createdBlog.body;

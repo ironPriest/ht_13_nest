@@ -26,14 +26,16 @@ export class BlogsController {
 
   @Post()
   async createBlog(@Body() inputDTO: BlogInputDTO) {
+    //const start = new Date();
     const blogId: string = await this.blogsService.create(inputDTO);
+    //const stop = new Date();
     const blog = await this.blogsQueryRepository.getBlog(blogId);
     if (!blog) throw new BadRequestException();
     return blog;
   }
 
   @Post(':blogId/posts')
-  async createBlogPost(
+  async createPost(
     @Param('blogId') blogId: string,
     @Body() inputDTO: PostInputDTO,
   ) {
@@ -64,5 +66,25 @@ export class BlogsController {
   @Get(':id')
   getBlog(@Param('id') blogId: string) {
     return this.blogsQueryRepository.getBlog(blogId);
+  }
+
+  @Get(':blogId/posts') async getPosts(
+    @Param('blogId') blogId: string,
+    @Query()
+    query: {
+      pageNumber: string;
+      pageSize: string;
+      sortBy: string;
+      sortDirection: string;
+    },
+  ) {
+    // todo optimize
+    const pageNumber = query.pageNumber ? +query.pageNumber : 1;
+    const pageSize = query.pageSize ? +query.pageSize : 10;
+    const sortBy = query.sortBy ? query.sortBy.toString() : 'createdAt';
+    const sortDirection = query.sortDirection
+      ? query.sortDirection.toString()
+      : 'Desc';
+    await this.postsQueryRepository.getPosts(pageNumber, pageSize);
   }
 }

@@ -28,4 +28,10 @@ export class PostsQueryRepository {
       },
     };
   }
+
+  async getPosts(pageNumber: number, pageSize: number) {
+    const items = await this.PostModel.find()
+      .skip((pageNumber - 1) * pageSize)
+      .limit(pageSize);
+  }
 }
