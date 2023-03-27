@@ -63,18 +63,14 @@ export class PostsQueryRepository {
           /**
            * query: The query in MQL.
            */
-          {
-            filter,
-          },
+          filter,
       },
       {
         $sort:
           /**
            * Provide any number of field/order pairs.
            */
-          {
-            sortFilter,
-          },
+          sortFilter,
       },
       {
         $skip:
