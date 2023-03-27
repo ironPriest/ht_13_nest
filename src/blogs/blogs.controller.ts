@@ -68,7 +68,8 @@ export class BlogsController {
     return this.blogsQueryRepository.getBlog(blogId);
   }
 
-  @Get(':blogId/posts') async getPosts(
+  @Get(':blogId/posts')
+  async getPosts(
     @Param('blogId') blogId: string,
     @Query()
     query: {
@@ -85,6 +86,6 @@ export class BlogsController {
     const sortDirection = query.sortDirection
       ? query.sortDirection.toString()
       : 'Desc';
-    await this.postsQueryRepository.getPosts(pageNumber, pageSize);
+    await this.postsQueryRepository.getPosts(null, pageNumber, pageSize);
   }
 }

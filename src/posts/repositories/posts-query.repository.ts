@@ -29,9 +29,23 @@ export class PostsQueryRepository {
     };
   }
 
-  async getPosts(pageNumber: number, pageSize: number) {
-    const items = await this.PostModel.find()
+  async getPosts(blogId: string | null, pageNumber: number, pageSize: number) {
+    let filter = {};
+    if (blogId) filter = { blogId: blogId };
+
+    const totalCount = await this.PostModel.count(filter);
+    const pageCount = Math.ceil(+totalCount / pageSize);
+
+    const items = await this.PostModel.find(filter)
       .skip((pageNumber - 1) * pageSize)
       .limit(pageSize);
+
+    return {
+      pagesCount: pageCount,
+      page: pageNumber,
+      pageSize: pageSize,
+      totalCount: totalCount,
+      items: items,
+    };
   }
 }
