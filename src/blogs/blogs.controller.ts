@@ -79,13 +79,17 @@ export class BlogsController {
       sortDirection: string;
     },
   ) {
-    // todo optimize
+    //todo -> is it a proper 404 check?
+    const blog = await this.blogsQueryRepository.getBlog(blogId);
+    if (blog) throw new BadRequestException();
+
+    //todo -> optimize
     const pageNumber = query.pageNumber ? +query.pageNumber : 1;
     const pageSize = query.pageSize ? +query.pageSize : 10;
     const sortBy = query.sortBy ? query.sortBy.toString() : 'createdAt';
     const sortDirection = query.sortDirection
       ? query.sortDirection.toString()
       : 'Desc';
-    await this.postsQueryRepository.getPosts(null, pageNumber, pageSize);
+    await this.postsQueryRepository.getPosts(blogId, pageNumber, pageSize);
   }
 }
