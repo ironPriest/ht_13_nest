@@ -81,8 +81,7 @@ export class BlogsController {
   ) {
     //todo -> is it a proper 404 check?
     const blog = await this.blogsQueryRepository.getBlog(blogId);
-    if (blog) throw new BadRequestException();
-
+    if (!blog) throw new NotFoundException();
     //todo -> optimize
     const pageNumber = query.pageNumber ? +query.pageNumber : 1;
     const pageSize = query.pageSize ? +query.pageSize : 10;
@@ -90,6 +89,6 @@ export class BlogsController {
     const sortDirection = query.sortDirection
       ? query.sortDirection.toString()
       : 'Desc';
-    await this.postsQueryRepository.getPosts(blogId, pageNumber, pageSize);
+    return this.postsQueryRepository.getPosts(blogId, pageNumber, pageSize);
   }
 }
