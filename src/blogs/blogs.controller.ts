@@ -89,6 +89,12 @@ export class BlogsController {
     const sortDirection = query.sortDirection
       ? query.sortDirection.toString()
       : 'Desc';
-    return this.postsQueryRepository.getPosts(blogId, pageNumber, pageSize);
+    return this.postsQueryRepository.getPosts(
+      blogId,
+      pageNumber,
+      pageSize,
+      sortBy,
+      sortDirection,
+    );
   }
 }

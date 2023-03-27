@@ -29,14 +29,31 @@ export class PostsQueryRepository {
     };
   }
 
-  async getPosts(blogId: string | null, pageNumber: number, pageSize: number) {
+  async getPosts(
+    blogId: string | null,
+    pageNumber: number,
+    pageSize: number,
+    sortBy: string,
+    sortDirection: string,
+  ) {
     let filter = {};
     if (blogId) filter = { blogId: blogId };
+
+    const sortFilter: any = {};
+    switch (sortDirection) {
+      case 'Asc':
+        sortFilter[sortBy] = 1;
+        break;
+      case 'Desc':
+        sortFilter[sortBy] = -1;
+        break;
+    }
 
     const totalCount = await this.PostModel.count(filter);
     const pageCount = Math.ceil(+totalCount / pageSize);
 
     const items = await this.PostModel.find(filter)
+      .sort(sortFilter)
       .skip((pageNumber - 1) * pageSize)
       .limit(pageSize);
 
