@@ -52,10 +52,60 @@ export class PostsQueryRepository {
     const totalCount = await this.PostModel.count(filter);
     const pageCount = Math.ceil(+totalCount / pageSize);
 
-    const items = await this.PostModel.find(filter)
+    /*const items = await this.PostModel.find(filter)
       .sort(sortFilter)
       .skip((pageNumber - 1) * pageSize)
-      .limit(pageSize);
+      .limit(pageSize);*/
+
+    const items = await this.PostModel.aggregate([
+      {
+        $match:
+          /**
+           * query: The query in MQL.
+           */
+          {
+            filter,
+          },
+      },
+      {
+        $sort:
+          /**
+           * Provide any number of field/order pairs.
+           */
+          {
+            sortFilter,
+          },
+      },
+      {
+        $skip:
+          /**
+           * Provide the number of documents to skip.
+           */
+          (pageNumber - 1) * pageSize,
+      },
+      {
+        $limit:
+          /**
+           * Provide the number of documents to limit.
+           */
+          pageSize,
+      },
+      {
+        $addFields:
+          /**
+           * newField: The new field name.
+           * expression: The new field expression.
+           */
+          {
+            extendedLikesInfo: {
+              likesCount: 0,
+              dislikesCount: 0,
+              myStatus: 'None',
+              newestLikes: [],
+            },
+          },
+      },
+    ]);
 
     return {
       pagesCount: pageCount,
