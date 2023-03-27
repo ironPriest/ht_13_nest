@@ -59,6 +59,27 @@ export class PostsQueryRepository {
 
     const items = await this.PostModel.aggregate([
       {
+        $project:
+          /**
+           * specifications: The fields to
+           *   include or exclude.
+           */
+          {
+            __v: 0,
+            _id: 0,
+            id: {
+              $toString: '$_id',
+            },
+            title: 1,
+            shortDescription: 1,
+            content: 1,
+            blogId: 1,
+            blogName: 1,
+            createdAt: 1,
+            likeStatuses: 1,
+          },
+      },
+      {
         $match:
           /**
            * query: The query in MQL.
