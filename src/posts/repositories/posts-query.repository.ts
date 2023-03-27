@@ -65,7 +65,6 @@ export class PostsQueryRepository {
            *   include or exclude.
            */
           {
-            __v: 0,
             _id: 0,
             id: {
               $toString: '$_id',
