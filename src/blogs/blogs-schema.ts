@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Model } from 'mongoose';
-import { BlogInputDTO } from './types';
+import { BlogInputDTO, BlogUpdateDTO } from './types';
 
 @Schema()
 export class Blog {
@@ -28,6 +28,12 @@ export class Blog {
     });
     return blog;
   }
+
+  update(DTO: BlogUpdateDTO) {
+    this.name = DTO.name;
+    this.description = DTO.description;
+    this.websiteUrl = DTO.websiteUrl;
+  }
 }
 
 export const BlogSchema = SchemaFactory.createForClass(Blog);
@@ -36,6 +42,7 @@ const blogStaticMethods: BlogModelStaticType = {
   createBlog: Blog.createBlog,
 };
 BlogSchema.statics = blogStaticMethods;
+BlogSchema.methods = { update: Blog.prototype.update };
 
 export type BlogDocument = HydratedDocument<Blog>;
 export type BlogModelStaticType = {

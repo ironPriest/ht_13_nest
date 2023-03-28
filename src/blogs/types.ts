@@ -8,6 +8,14 @@ export class BlogInputDTO {
   ) {}
 }
 
+export class BlogUpdateDTO {
+  constructor(
+    public name: string,
+    public description: string,
+    public websiteUrl: string,
+  ) {}
+}
+
 export class BlogViewDTO {
   constructor(
     public id: string,

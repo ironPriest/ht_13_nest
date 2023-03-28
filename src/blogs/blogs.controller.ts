@@ -6,10 +6,11 @@ import {
   NotFoundException,
   Param,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { BlogsService } from './blogs.service';
-import { BlogInputDTO } from './types';
+import { BlogInputDTO, BlogUpdateDTO } from './types';
 import { BlogsQueryRepository } from './repositories/blogs-query.repository';
 import { PostsService } from '../posts/posts.service';
 import { PostInputDTO } from '../posts/types';
@@ -26,9 +27,7 @@ export class BlogsController {
 
   @Post()
   async createBlog(@Body() inputDTO: BlogInputDTO) {
-    //const start = new Date();
     const blogId: string = await this.blogsService.create(inputDTO);
-    //const stop = new Date();
     const blog = await this.blogsQueryRepository.getBlog(blogId);
     if (!blog) throw new BadRequestException();
     return blog;
@@ -112,5 +111,16 @@ export class BlogsController {
       sortBy,
       sortDirection,
     );
+  }
+
+  @Put(':id')
+  async updateBlog(
+    @Param('id') blogId: string,
+    @Body() updateDTO: BlogUpdateDTO,
+  ) {
+    const blog = await this.blogsQueryRepository.getBlog(blogId);
+    if (!blog) throw new NotFoundException();
+
+    await this.blogsService.update(blogId, updateDTO);
   }
 }
