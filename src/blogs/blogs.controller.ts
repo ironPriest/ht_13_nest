@@ -81,7 +81,10 @@ export class BlogsController {
   }
 
   @Get(':id')
-  getBlog(@Param('id') blogId: string) {
+  async getBlog(@Param('id') blogId: string) {
+    const blog = await this.blogsQueryRepository.getBlog(blogId);
+    if (!blog) throw new NotFoundException();
+
     return this.blogsQueryRepository.getBlog(blogId);
   }
 
