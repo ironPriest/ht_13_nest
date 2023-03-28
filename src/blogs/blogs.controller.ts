@@ -128,6 +128,7 @@ export class BlogsController {
   }
 
   @Delete(':id')
+  @HttpCode(204)
   async delete(@Param('id') blogId: string) {
     const blog = await this.blogsQueryRepository.getBlog(blogId);
     if (!blog) throw new NotFoundException();
