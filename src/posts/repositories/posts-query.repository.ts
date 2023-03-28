@@ -40,7 +40,7 @@ export class PostsQueryRepository {
     if (blogId) filter = { blogId: blogId };
 
     /* eslint-disable */
-    let sortFilter: any = {};
+    let sortFilter: any = {sortBy: -1};
     /* eslint-enable */
 
     switch (sortDirection) {
