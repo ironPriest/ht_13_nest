@@ -57,6 +57,8 @@ export class PostsQueryRepository {
       .skip((pageNumber - 1) * pageSize)
       .limit(pageSize);*/
 
+    console.log('sort filter -->', sortFilter);
+
     const items = await this.PostModel.aggregate([
       {
         $project:
