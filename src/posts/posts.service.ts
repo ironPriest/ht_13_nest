@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Post, PostModelType } from './posts-schema';
 import { PostsRepository } from './repositories/posts.repository';
-import { PostInputDTO } from './types';
+import { PostInputDTO, PostUpdateDTO } from './types';
 
 @Injectable()
 export class PostsService {
@@ -24,5 +24,11 @@ export class PostsService {
     );
     await this.postsRepository.save(post);
     return post._id.toString();
+  }
+
+  async update(postId: string, DTO: PostUpdateDTO) {
+    const post = await this.postsRepository.getPost(postId);
+    post.update(DTO);
+    await this.postsRepository.save(post);
   }
 }

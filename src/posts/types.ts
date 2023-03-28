@@ -12,6 +12,15 @@ export class PostInputDTO {
   ) {}
 }
 
+export class PostUpdateDTO {
+  constructor(
+    public title: string,
+    public shortDescription: string,
+    public content: string,
+    public blogId: string,
+  ) {}
+}
+
 export class PostViewDTO {
   constructor(
     public id: string,

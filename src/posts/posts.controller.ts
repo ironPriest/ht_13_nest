@@ -1,7 +1,16 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  NotFoundException,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { PostsQueryRepository } from './repositories/posts-query.repository';
-import { PostInputDTO } from './types';
+import { PostInputDTO, PostUpdateDTO } from './types';
 import { BlogsQueryRepository } from '../blogs/repositories/blogs-query.repository';
 
 @Controller('posts')
@@ -25,5 +34,17 @@ export class PostsController {
     const blog = await this.blogsQueryRepository.getBlog(blogId);
     const postId = await this.postsService.create(inputDTO, blogId, blog.name);
     return this.postsQueryRepository.getPost(postId);
+  }
+
+  @Put(':id')
+  @HttpCode(204)
+  async updatePost(
+    @Param('id') postId: string,
+    @Body() updateDTO: PostUpdateDTO,
+  ) {
+    const post = await this.postsQueryRepository.getPost(postId);
+    if (!post) throw new NotFoundException();
+
+    await this.postsService.update(postId, updateDTO);
   }
 }

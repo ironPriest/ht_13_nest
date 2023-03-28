@@ -10,4 +10,8 @@ export class PostsRepository {
   async save(post: PostDocument) {
     await post.save();
   }
+
+  async getPost(postId: string): Promise<PostDocument> {
+    return this.PostModel.findOne().where('_id').equals(postId);
+  }
 }

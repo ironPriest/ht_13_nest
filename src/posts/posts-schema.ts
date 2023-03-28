@@ -1,6 +1,6 @@
 import { HydratedDocument, Model } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { like, PostInputDTO } from './types';
+import { like, PostInputDTO, PostUpdateDTO } from './types';
 
 @Schema()
 export class LikeStatus {
@@ -55,6 +55,13 @@ export class Post {
     });
     return post;
   }
+
+  update(DTO: PostUpdateDTO) {
+    this.title = DTO.title;
+    this.shortDescription = DTO.shortDescription;
+    this.content = DTO.content;
+    this.blogId = DTO.blogId;
+  }
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);
@@ -63,6 +70,7 @@ const postStaticMethods: PostModelStaticType = {
   createPost: Post.createPost,
 };
 PostSchema.statics = postStaticMethods;
+PostSchema.methods = { update: Post.prototype.update };
 
 export type PostDocument = HydratedDocument<Post>;
 export type PostModelStaticType = {
