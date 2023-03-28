@@ -79,6 +79,16 @@ export class PostsQueryRepository {
           },
       },
       {
+        $project:
+          /**
+           * specifications: The fields to
+           *   include or exclude.
+           */
+          {
+            likeStatuses: 0,
+          },
+      },
+      {
         $match:
           /**
            * query: The query in MQL.
