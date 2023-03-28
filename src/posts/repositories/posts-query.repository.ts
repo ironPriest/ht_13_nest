@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Post, PostDocument } from '../posts-schema';
 import { Model } from 'mongoose';
-import { like, PostViewDTO } from '../types';
+import { PostViewDTO } from '../types';
 
 @Injectable()
 export class PostsQueryRepository {
@@ -39,7 +39,10 @@ export class PostsQueryRepository {
     let filter = {};
     if (blogId) filter = { blogId: blogId };
 
-    const sortFilter: any = {};
+    /* eslint-disable */
+    let sortFilter: any = {};
+    /* eslint-enable */
+
     switch (sortDirection) {
       case 'Asc':
         sortFilter[sortBy] = 1;
