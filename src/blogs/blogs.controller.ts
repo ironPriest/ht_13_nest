@@ -60,7 +60,23 @@ export class BlogsController {
       pageSize: string;
     },
   ) {
-    return this.blogsService.getBlogs();
+    let searchNameTerm = null;
+    if (query.searchNameTerm) {
+      searchNameTerm = query.searchNameTerm;
+    }
+    const pageNumber = query.pageNumber ? +query.pageNumber : 1;
+    const pageSize = query.pageSize ? +query.pageSize : 10;
+    const sortBy = query.sortBy ? query.sortBy.toString() : 'createdAt';
+    const sortDirection = query.sortDirection
+      ? query.sortDirection.toString()
+      : 'desc';
+    return this.blogsQueryRepository.getBlogs(
+      searchNameTerm,
+      pageNumber,
+      pageSize,
+      sortBy,
+      sortDirection,
+    );
   }
 
   @Get(':id')
