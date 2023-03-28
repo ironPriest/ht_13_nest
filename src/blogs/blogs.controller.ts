@@ -88,7 +88,7 @@ export class BlogsController {
     const sortBy = query.sortBy ? query.sortBy.toString() : 'createdAt';
     const sortDirection = query.sortDirection
       ? query.sortDirection.toString()
-      : 'Desc';
+      : 'desc';
     return this.postsQueryRepository.getPosts(
       blogId,
       pageNumber,

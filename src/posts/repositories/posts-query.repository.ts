@@ -40,14 +40,14 @@ export class PostsQueryRepository {
     if (blogId) filter = { blogId: blogId };
 
     /* eslint-disable */
-    let sortFilter: any = {sortBy: -1};
+    let sortFilter: any = {};
     /* eslint-enable */
 
     switch (sortDirection) {
-      case 'Asc':
+      case 'asc':
         sortFilter[sortBy] = 1;
         break;
-      case 'Desc':
+      case 'desc':
         sortFilter[sortBy] = -1;
         break;
     }
