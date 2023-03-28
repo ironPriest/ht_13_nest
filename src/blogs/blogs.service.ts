@@ -40,4 +40,8 @@ export class BlogsService {
     blog.update(DTO);
     await this.blogsRepository.save(blog);
   }
+
+  async delete(blogId: string) {
+    await this.blogsRepository.delete(blogId);
+  }
 }

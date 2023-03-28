@@ -22,4 +22,8 @@ export class BlogsRepository {
   async getBlog(blogId: string): Promise<BlogDocument> {
     return this.BlogModel.findOne().where('_id').equals(blogId);
   }
+
+  async delete(blogId: string) {
+    await this.BlogModel.deleteOne().where('_id').equals(blogId);
+  }
 }

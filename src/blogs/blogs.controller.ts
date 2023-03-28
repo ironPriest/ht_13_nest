@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   NotFoundException,
@@ -124,5 +125,13 @@ export class BlogsController {
     if (!blog) throw new NotFoundException();
 
     await this.blogsService.update(blogId, updateDTO);
+  }
+
+  @Delete(':id')
+  async delete(@Param(':id') blogId: string) {
+    const blog = await this.blogsQueryRepository.getBlog(blogId);
+    if (!blog) throw new NotFoundException();
+
+    await this.blogsService.delete(blogId);
   }
 }
