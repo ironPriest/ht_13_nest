@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
   NotFoundException,
   Param,
   Post,
@@ -114,6 +115,7 @@ export class BlogsController {
   }
 
   @Put(':id')
+  @HttpCode(204)
   async updateBlog(
     @Param('id') blogId: string,
     @Body() updateDTO: BlogUpdateDTO,
