@@ -31,4 +31,8 @@ export class PostsService {
     post.update(DTO);
     await this.postsRepository.save(post);
   }
+
+  async delete(postId: string) {
+    await this.postsRepository.delete(postId);
+  }
 }

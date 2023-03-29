@@ -14,4 +14,8 @@ export class PostsRepository {
   async getPost(postId: string): Promise<PostDocument> {
     return this.PostModel.findOne().where('_id').equals(postId);
   }
+
+  async delete(postId: string) {
+    await this.PostModel.deleteOne().where('_id').equals(postId);
+  }
 }
