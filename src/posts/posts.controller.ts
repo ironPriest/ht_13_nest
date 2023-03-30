@@ -23,7 +23,9 @@ export class PostsController {
   ) {}
 
   @Get(':id')
-  getPost(@Param('id') postId: string) {
+  async getPost(@Param('id') postId: string) {
+    const post = await this.postsQueryRepository.getPost(postId);
+    if (!post) throw new NotFoundException();
     console.log(' == getPost == ');
     return this.postsQueryRepository.getPost(postId);
   }
