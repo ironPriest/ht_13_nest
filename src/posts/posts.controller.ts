@@ -24,6 +24,7 @@ export class PostsController {
 
   @Get(':id')
   getPost(@Param('id') postId: string) {
+    console.log(' == getPost == ');
     return this.postsQueryRepository.getPost(postId);
   }
 
@@ -52,6 +53,7 @@ export class PostsController {
   @Delete(':id')
   @HttpCode(204)
   async delete(@Param('id') postId: string) {
+    console.log(' == deletePost == ');
     const post = await this.postsQueryRepository.getPost(postId);
     if (!post) throw new NotFoundException();
 
