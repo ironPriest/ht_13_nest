@@ -14,6 +14,11 @@ import { PostsService } from './posts/posts.service';
 import { PostsRepository } from './posts/repositories/posts.repository';
 import { PostsQueryRepository } from './posts/repositories/posts-query.repository';
 import { Post, PostSchema } from './posts/posts-schema';
+import { UsersController } from './users/users.controller';
+import { User, UserSchema } from './users/users-schema';
+import { UsersService } from './users/users.service';
+import { UsersRepository } from './users/repositories/users.repository';
+import { UsersQueryRepository } from './users/repositories/users-query.repository';
 
 const mongoUri = process.env.mongoURI || 'mongodb://0.0.0.0:27017/blog_nest';
 
@@ -23,6 +28,7 @@ const mongoUri = process.env.mongoURI || 'mongodb://0.0.0.0:27017/blog_nest';
     MongooseModule.forFeature([
       { name: Blog.name, schema: BlogSchema },
       { name: Post.name, schema: PostSchema },
+      { name: User.name, schema: UserSchema },
     ]),
   ],
   controllers: [
@@ -30,6 +36,7 @@ const mongoUri = process.env.mongoURI || 'mongodb://0.0.0.0:27017/blog_nest';
     BlogsController,
     TestingController,
     PostsController,
+    UsersController,
   ],
   providers: [
     AppService,
@@ -40,6 +47,9 @@ const mongoUri = process.env.mongoURI || 'mongodb://0.0.0.0:27017/blog_nest';
     PostsRepository,
     PostsQueryRepository,
     TestingService,
+    UsersService,
+    UsersRepository,
+    UsersQueryRepository,
   ],
 })
 export class AppModule {}
