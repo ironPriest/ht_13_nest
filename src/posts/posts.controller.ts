@@ -8,6 +8,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { PostsQueryRepository } from './repositories/posts-query.repository';
@@ -60,5 +61,31 @@ export class PostsController {
     if (!post) throw new NotFoundException();
 
     await this.postsService.delete(postId);
+  }
+
+  @Get()
+  async getPosts(
+    @Query()
+    query: {
+      pageNumber: string;
+      pageSize: string;
+      sortBy: string;
+      sortDirection: string;
+    },
+  ) {
+    //todo -> optimize
+    const pageNumber = query.pageNumber ? +query.pageNumber : 1;
+    const pageSize = query.pageSize ? +query.pageSize : 10;
+    const sortBy = query.sortBy ? query.sortBy.toString() : 'createdAt';
+    const sortDirection = query.sortDirection
+      ? query.sortDirection.toString()
+      : 'desc';
+    return this.postsQueryRepository.getPosts(
+      null,
+      pageNumber,
+      pageSize,
+      sortBy,
+      sortDirection,
+    );
   }
 }
