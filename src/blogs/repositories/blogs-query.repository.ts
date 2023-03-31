@@ -8,7 +8,7 @@ import { BlogViewDTO } from '../types';
 export class BlogsQueryRepository {
   constructor(@InjectModel(Blog.name) private BlogModel: Model<BlogDocument>) {}
 
-  async getBlog(id: string): Promise<BlogViewDTO> {
+  async getBlog(id: string): Promise<BlogViewDTO | null> {
     const blog: BlogDocument = await this.BlogModel.findOne()
       .where('_id')
       .equals(id);

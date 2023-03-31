@@ -8,10 +8,11 @@ import { PostViewDTO } from '../types';
 export class PostsQueryRepository {
   constructor(@InjectModel(Post.name) private PostModel: Model<PostDocument>) {}
 
-  async getPost(id: string): Promise<PostViewDTO> {
+  async getPost(id: string): Promise<PostViewDTO | null> {
     const post: PostDocument = await this.PostModel.findOne()
       .where('_id')
       .equals(id);
+    if (!post) return null;
     return {
       id: post._id.toString(),
       title: post.title,

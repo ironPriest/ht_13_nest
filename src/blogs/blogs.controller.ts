@@ -85,7 +85,7 @@ export class BlogsController {
     const blog = await this.blogsQueryRepository.getBlog(blogId);
     if (!blog) throw new NotFoundException();
 
-    return this.blogsQueryRepository.getBlog(blogId);
+    return blog;
   }
 
   @Get(':blogId/posts')

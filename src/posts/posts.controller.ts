@@ -27,7 +27,7 @@ export class PostsController {
     const post = await this.postsQueryRepository.getPost(postId);
     if (!post) throw new NotFoundException();
     console.log(' == getPost == ');
-    return this.postsQueryRepository.getPost(postId);
+    return post;
   }
 
   @Post()
