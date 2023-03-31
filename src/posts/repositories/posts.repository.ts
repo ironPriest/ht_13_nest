@@ -18,4 +18,8 @@ export class PostsRepository {
   async delete(postId: string) {
     await this.PostModel.deleteOne().where('_id').equals(postId);
   }
+
+  async deleteAll() {
+    await this.PostModel.deleteMany({});
+  }
 }
