@@ -30,11 +30,18 @@ export class UsersQueryRepository {
     searchLoginTerm: string | null,
     searchEmailTerm: string | null,
   ) {
-    const filter: any = {};
+    let filter: any = {};
     if (searchLoginTerm)
       filter.login = { $regex: searchLoginTerm, $options: 'i' };
     if (searchEmailTerm)
       filter.email = { $regex: searchEmailTerm, $options: 'i' };
+    if (searchLoginTerm && searchEmailTerm)
+      filter = {
+        $or: {
+          login: { $regex: searchLoginTerm, $options: 'i' },
+          email: { $regex: searchEmailTerm, $options: 'i' },
+        },
+      };
 
     const sortFilter: any = {};
 
