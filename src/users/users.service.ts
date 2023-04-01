@@ -17,4 +17,8 @@ export class UsersService {
     await this.usersRepository.save(user);
     return user._id.toString();
   }
+
+  async delete(userId: string) {
+    await this.usersRepository.delete(userId);
+  }
 }

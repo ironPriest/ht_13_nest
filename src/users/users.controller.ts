@@ -2,7 +2,11 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
+  HttpCode,
+  NotFoundException,
+  Param,
   Post,
   Query,
 } from '@nestjs/common';
@@ -57,5 +61,14 @@ export class UsersController {
       searchLoginTerm,
       searchEmailTerm,
     );
+  }
+
+  @Delete(':id')
+  @HttpCode(204)
+  async delete(@Param('id') userId: string) {
+    const user = await this.usersQueryRepository.getUser(userId);
+    if (!user) throw new NotFoundException();
+
+    await this.usersService.delete(userId);
   }
 }
