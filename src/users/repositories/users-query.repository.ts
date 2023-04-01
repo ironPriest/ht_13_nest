@@ -21,4 +21,56 @@ export class UsersQueryRepository {
       createdAt: user.createdAt,
     };
   }
+
+  async getUsers(
+    pageNumber: number,
+    pageSize: number,
+    sortBy: string,
+    sortDirection: string,
+    searchLoginTerm: string | null,
+    searchEmailTerm: string | null,
+  ) {
+    const filter: any = {};
+    if (searchLoginTerm)
+      filter.login = { $regex: searchLoginTerm, $options: 'i' };
+    if (searchEmailTerm)
+      filter.email = { $regex: searchEmailTerm, $options: 'i' };
+
+    const sortFilter: any = {};
+
+    switch (sortDirection) {
+      case 'asc':
+        sortFilter[sortBy] = 1;
+        break;
+      case 'desc':
+        sortFilter[sortBy] = -1;
+        break;
+    }
+
+    const totalCount = await this.UserModel.count(filter);
+    const pageCount = Math.ceil(+totalCount / pageSize);
+
+    const items = await this.UserModel.aggregate([
+      {
+        $match: filter,
+      },
+      {
+        $sort: sortFilter,
+      },
+      {
+        $skip: (pageNumber - 1) * pageSize,
+      },
+      {
+        $limit: pageSize,
+      },
+    ]);
+
+    return {
+      pagesCount: pageCount,
+      page: pageNumber,
+      pageSize: pageSize,
+      totalCount: totalCount,
+      items: items,
+    };
+  }
 }

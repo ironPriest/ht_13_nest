@@ -1,4 +1,11 @@
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { UserInputDTO } from './types';
 import { UsersService } from './users.service';
 import { UsersQueryRepository } from './repositories/users-query.repository';
@@ -16,5 +23,39 @@ export class UsersController {
     const user = await this.usersQueryRepository.getUser(userId);
     if (!user) throw new BadRequestException();
     return user;
+  }
+
+  @Get()
+  async getUsers(
+    @Query()
+    query: {
+      sortBy: string;
+      sortDirection: string;
+      pageNumber: string;
+      pageSize: string;
+      searchLoginTerm: string;
+      searchEmailTerm: string;
+    },
+  ) {
+    const pageNumber = query.pageNumber ? +query.pageNumber : 1;
+    const pageSize = query.pageSize ? +query.pageSize : 10;
+    const sortBy = query.sortBy ? query.sortBy.toString() : 'createdAt';
+    const sortDirection = query.sortDirection
+      ? query.sortDirection.toString()
+      : 'desc';
+    const searchLoginTerm = query.searchLoginTerm
+      ? query.searchLoginTerm.toString()
+      : null;
+    const searchEmailTerm = query.searchEmailTerm
+      ? query.searchEmailTerm.toString()
+      : null;
+    return this.usersQueryRepository.getUsers(
+      pageNumber,
+      pageSize,
+      sortBy,
+      sortDirection,
+      searchLoginTerm,
+      searchEmailTerm,
+    );
   }
 }
