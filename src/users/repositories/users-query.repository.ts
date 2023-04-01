@@ -52,6 +52,17 @@ export class UsersQueryRepository {
 
     const items = await this.UserModel.aggregate([
       {
+        $project: {
+          _id: 0,
+          id: {
+            $toString: '$_id',
+          },
+          login: 1,
+          email: 1,
+          createdAt: 1,
+        },
+      },
+      {
         $match: filter,
       },
       {
