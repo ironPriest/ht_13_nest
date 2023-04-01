@@ -37,10 +37,10 @@ export class UsersQueryRepository {
       filter.email = { $regex: searchEmailTerm, $options: 'i' };
     if (searchLoginTerm && searchEmailTerm)
       filter = {
-        $or: {
-          login: { $regex: searchLoginTerm, $options: 'i' },
-          email: { $regex: searchEmailTerm, $options: 'i' },
-        },
+        $or: [
+          { login: { $regex: searchLoginTerm, $options: 'i' } },
+          { email: { $regex: searchEmailTerm, $options: 'i' } },
+        ],
       };
 
     const sortFilter: any = {};
